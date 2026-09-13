@@ -32,9 +32,18 @@ function Dashboard() {
 
     const handleDeploy = async (id) => {
         try {
+            const token = localStorage.getItem("nova_token");
+
             const result = await axios.get(
                 `${serverUrl}/api/website/deploy/${id}`,
-                { withCredentials: true }
+                {
+                    withCredentials: true,
+                    headers: token
+                        ? {
+                            Authorization: `Bearer ${token}`
+                        }
+                        : {}
+                }
             );
 
             window.open(result.data.url, "_blank");
@@ -61,9 +70,18 @@ function Dashboard() {
             setError("");
 
             try {
+                const token = localStorage.getItem("nova_token");
+
                 const result = await axios.get(
                     `${serverUrl}/api/website/get-all`,
-                    { withCredentials: true }
+                    {
+                        withCredentials: true,
+                        headers: token
+                            ? {
+                                Authorization: `Bearer ${token}`
+                            }
+                            : {}
+                    }
                 );
 
                 setWebsites(result.data || []);
