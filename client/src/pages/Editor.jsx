@@ -69,13 +69,20 @@ function WebsiteEditor() {
         ]);
 
         try {
+            const token = localStorage.getItem("nova_token");
+
             const result = await axios.post(
                 `${serverUrl}/api/website/update/${id}`,
                 {
                     prompt: text
                 },
                 {
-                    withCredentials: true
+                    withCredentials: true,
+                    headers: token
+                        ? {
+                            Authorization: `Bearer ${token}`
+                        }
+                        : {}
                 }
             );
 
@@ -117,10 +124,17 @@ function WebsiteEditor() {
 
     const handleDeploy = async () => {
         try {
+            const token = localStorage.getItem("nova_token");
+
             const result = await axios.get(
                 `${serverUrl}/api/website/deploy/${website._id}`,
                 {
-                    withCredentials: true
+                    withCredentials: true,
+                    headers: token
+                        ? {
+                            Authorization: `Bearer ${token}`
+                        }
+                        : {}
                 }
             );
 
@@ -154,10 +168,17 @@ function WebsiteEditor() {
     useEffect(() => {
         const handleGetWebsite = async () => {
             try {
+                const token = localStorage.getItem("nova_token");
+
                 const result = await axios.get(
                     `${serverUrl}/api/website/get-by-id/${id}`,
                     {
-                        withCredentials: true
+                        withCredentials: true,
+                        headers: token
+                            ? {
+                                Authorization: `Bearer ${token}`
+                            }
+                            : {}
                     }
                 );
 
@@ -566,7 +587,7 @@ function WebsiteEditor() {
 
                             {updateLoading && (
                                 <div className="flex gap-3">
-                                    <div className="w-7 h-7 shrink-0 rounded-lg bg-violet-400/10 border border-violet-400/15 flex items-center justify-center">
+                                    <div className="w-7 h-7 shrink-0 rounded-lg bg-violet-400/10 border border-violet-400/[0.15] flex items-center justify-center">
                                         <Sparkles
                                             size={13}
                                             className="text-violet-300 animate-pulse"
