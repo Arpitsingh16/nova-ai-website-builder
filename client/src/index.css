@@ -1,0 +1,468 @@
+@import "tailwindcss";
+
+/* =========================================================
+   NOVA — Global UI
+   Visual-only redesign. No application logic is changed.
+   ========================================================= */
+
+:root {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: #e8eaf0;
+  background: #08090d;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --bg: #08090d;
+  --bg-soft: #0d0f15;
+  --surface: #11131a;
+  --surface-hover: #171a23;
+  --surface-raised: #1a1d27;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  --text: #f4f5f7;
+  --text-secondary: #a6aab7;
+  --text-muted: #686d7b;
+
+  --accent: #8b7cff;
+  --accent-light: #aaa0ff;
+  --accent-soft: rgba(139, 124, 255, 0.12);
+
+  --success: #54d99a;
+  --danger: #ff6b7a;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  --shadow-sm: 0 4px 18px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 12px 40px rgba(0, 0, 0, 0.28);
+  --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(139, 124, 255, 0.08),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(76, 201, 240, 0.045),
+      transparent 25%
+    ),
+    var(--bg);
+  color: var(--text);
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------------------------------------------------------
+   Selection
+   --------------------------------------------------------- */
+
+::selection {
+  color: #ffffff;
+  background: rgba(139, 124, 255, 0.35);
+}
+
+/* ---------------------------------------------------------
+   Scrollbars
+   --------------------------------------------------------- */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #303441 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #303441;
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #414655;
+}
+
+/* ---------------------------------------------------------
+   Common surfaces
+   --------------------------------------------------------- */
+
+.glass {
+  background: rgba(17, 19, 26, 0.72);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.card:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-hover);
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* ---------------------------------------------------------
+   Buttons
+   --------------------------------------------------------- */
+
+.btn-primary {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 16px;
+  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    #8b7cff 0%,
+    #6d5df5 100%
+  );
+  box-shadow:
+    0 8px 24px rgba(109, 93, 245, 0.22),
+    inset 0 1px rgba(255, 255, 255, 0.15);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  box-shadow:
+    0 12px 30px rgba(109, 93, 245, 0.3),
+    inset 0 1px rgba(255, 255, 255, 0.18);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 16px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.075);
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------
+   Inputs
+   --------------------------------------------------------- */
+
+input,
+textarea,
+select {
+  color: var(--text);
+  background: #0c0e13;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(139, 124, 255, 0.65);
+  background: #0f1118;
+  box-shadow: 0 0 0 3px rgba(139, 124, 255, 0.1);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------
+   Decorative background
+   --------------------------------------------------------- */
+
+.nova-grid {
+  position: relative;
+  isolation: isolate;
+}
+
+.nova-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    );
+
+  background-size: 44px 44px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    transparent 85%
+  );
+}
+
+/* ---------------------------------------------------------
+   Glow
+   --------------------------------------------------------- */
+
+.nova-glow {
+  position: relative;
+}
+
+.nova-glow::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  top: -180px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: -1;
+
+  background: rgba(139, 124, 255, 0.08);
+  filter: blur(100px);
+  border-radius: 50%;
+}
+
+/* ---------------------------------------------------------
+   Typography helpers
+   --------------------------------------------------------- */
+
+.gradient-text {
+  background: linear-gradient(
+    110deg,
+    #ffffff 10%,
+    #bcb5ff 52%,
+    #8b7cff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.eyebrow {
+  color: var(--accent-light);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.muted {
+  color: var(--text-secondary);
+}
+
+.subtle {
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------
+   Status indicators
+   --------------------------------------------------------- */
+
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 10px rgba(84, 217, 154, 0.5);
+}
+
+.status-dot-danger {
+  background: var(--danger);
+  box-shadow: 0 0 10px rgba(255, 107, 122, 0.4);
+}
+
+/* ---------------------------------------------------------
+   Dividers
+   --------------------------------------------------------- */
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ---------------------------------------------------------
+   Animations
+   --------------------------------------------------------- */
+
+@keyframes nova-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes nova-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes nova-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: nova-fade-in 350ms ease both;
+}
+
+.animate-scale-in {
+  animation: nova-scale-in 250ms ease both;
+}
+
+.animate-pulse-soft {
+  animation: nova-pulse 2s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------
+   Responsive
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  :root {
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+  }
+
+  body {
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(139, 124, 255, 0.08),
+        transparent 35%
+      ),
+      var(--bg);
+  }
+
+  .nova-grid::before {
+    background-size: 30px 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
