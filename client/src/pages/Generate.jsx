@@ -52,10 +52,19 @@ function Generate() {
         setLoading(true)
 
         try {
+            const token = localStorage.getItem("nova_token")
+
             const result = await axios.post(
                 `${serverUrl}/api/website/generate`,
                 { prompt },
-                { withCredentials: true }
+                {
+                    withCredentials: true,
+                    headers: token
+                        ? {
+                            Authorization: `Bearer ${token}`
+                        }
+                        : {}
+                }
             )
 
             console.log(result)
