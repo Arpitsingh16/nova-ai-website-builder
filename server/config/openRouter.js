@@ -3,31 +3,37 @@ const model = "deepseek/deepseek-chat"
 
 export const generateResponse = async (prompt) => {
     const res = await fetch(openRouterUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
             Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            model: model,
+            model,
             messages: [
-                { role: "system", content: "You must return ONLY valid raw JSON." }
-                ,
                 {
-                    role: 'user',
+                    role: "system",
+                    content: "You must return ONLY valid raw JSON.",
+                },
+                {
+                    role: "user",
                     content: prompt,
                 },
             ],
-            temperature:0.2
+            temperature: 0.2,
         }),
-    });
+    })
 
-if(!res.ok){
-    const err=await res.text()
-    throw new Error("openRouter err"+err)
-}
+    if (!res.ok) {
+        const err = await res.text()
+        throw new Error(`openRouter err ${err}`)
+    }
 
-const data=await res.json()
-return data.choices[0].message.content
+    const data = await res.json()
 
+    if (!data?.choices?.[0]?.message?.content) {
+        throw new Error("openRouter returned an empty response")
+    }
+
+    return data.choices[0].message.content
 }

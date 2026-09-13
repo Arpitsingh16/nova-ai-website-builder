@@ -414,8 +414,7 @@ export const deploy = async (req, res) => {
         }
 
         website.deployed = true;
-        website.deployUrl = `${process.env.FRONTEND_URL}/site/${website.slug}`;
-
+        website.deployUrl = `${process.env.CLIENT_URL}/site/${website.slug}`;
         await website.save();
 
         return res.status(200).json({

@@ -54,9 +54,18 @@ function Home() {
 
     const handleLogOut = async () => {
         try {
+            const token = localStorage.getItem("nova_token");
+
             await axios.get(`${serverUrl}/api/auth/logout`, {
                 withCredentials: true,
+                headers: token
+                    ? {
+                          Authorization: `Bearer ${token}`,
+                      }
+                    : {},
             });
+
+            localStorage.removeItem("nova_token");
 
             dispatch(setUserData(null));
             setOpenProfile(false);
@@ -70,9 +79,18 @@ function Home() {
 
         const handleGetAllWebsites = async () => {
             try {
+                const token = localStorage.getItem("nova_token");
+
                 const result = await axios.get(
                     `${serverUrl}/api/website/get-all`,
-                    { withCredentials: true }
+                    {
+                        withCredentials: true,
+                        headers: token
+                            ? {
+                                  Authorization: `Bearer ${token}`,
+                              }
+                            : {},
+                    }
                 );
 
                 setWebsites(result.data || []);

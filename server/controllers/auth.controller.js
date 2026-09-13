@@ -35,11 +35,7 @@ export const googleAuth = async (req, res) => {
             });
         } else {
             // Migrate old free accounts from the previous credit system.
-            // This runs only for legacy balances above the new 200-credit limit.
-            if (
-                user.plan === "free" &&
-                user.credits > 200
-            ) {
+            if (user.plan === "free" && user.credits > 200) {
                 user.credits = 200;
                 user.freeAccessExpiresAt = new Date(
                     Date.now() + 24 * 60 * 60 * 1000
@@ -52,12 +48,20 @@ export const googleAuth = async (req, res) => {
         const token = jwt.sign(
             { id: user._id },
             process.env.JWT_SECRET,
-            { expiresIn: "7d" }
+            {
+                expiresIn: "7d",
+            }
         );
 
+        // Keep the cookie authentication working.
         res.cookie("token", token, cookieOptions);
 
-        return res.status(200).json(user);
+        // Also return the token so the deployed frontend
+        // can explicitly authenticate API requests.
+        return res.status(200).json({
+            user,
+            token,
+        });
     } catch (error) {
         return res.status(500).json({
             message: `google auth error ${error}`,
