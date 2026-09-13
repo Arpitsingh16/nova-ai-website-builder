@@ -1,6 +1,15 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const cookieOptions = {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+};
+
 export const googleAuth = async (req, res) => {
     try {
         const { name, email, avatar } = req.body;
@@ -24,20 +33,29 @@ export const googleAuth = async (req, res) => {
                     Date.now() + 24 * 60 * 60 * 1000
                 ),
             });
+        } else {
+            // Migrate old free accounts from the previous credit system.
+            // This runs only for legacy balances above the new 200-credit limit.
+            if (
+                user.plan === "free" &&
+                user.credits > 200
+            ) {
+                user.credits = 200;
+                user.freeAccessExpiresAt = new Date(
+                    Date.now() + 24 * 60 * 60 * 1000
+                );
+
+                await user.save();
+            }
         }
 
-        const token = await jwt.sign(
+        const token = jwt.sign(
             { id: user._id },
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
         );
 
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: false,
-            sameSite: "strict",
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-        });
+        res.cookie("token", token, cookieOptions);
 
         return res.status(200).json(user);
     } catch (error) {
@@ -51,8 +69,8 @@ export const logOut = async (req, res) => {
     try {
         res.clearCookie("token", {
             httpOnly: true,
-            secure: false,
-            sameSite: "strict",
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
         });
 
         return res.status(200).json({
