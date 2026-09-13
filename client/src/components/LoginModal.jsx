@@ -35,7 +35,12 @@ function LoginModal({ open, onClose }) {
                 }
             );
 
-            dispatch(setUserData(data));
+            // Store the JWT for authenticated API requests.
+            localStorage.setItem("nova_token", data.token);
+
+            // Keep only the actual user object in Redux.
+            dispatch(setUserData(data.user));
+
             onClose();
         } catch (error) {
             console.log(error);
@@ -76,15 +81,9 @@ function LoginModal({ open, onClose }) {
                         className="relative w-full max-w-[430px]"
                         onClick={(event) => event.stopPropagation()}
                     >
-                        {/* OUTER GLOW */}
-
                         <div className="absolute -inset-px rounded-[24px] bg-gradient-to-b from-violet-400/20 via-white/[0.06] to-transparent pointer-events-none" />
 
-                        {/* MODAL */}
-
                         <div className="relative overflow-hidden rounded-[24px] border border-white/[0.09] bg-[#0c0e13] shadow-[0_30px_100px_rgba(0,0,0,0.7)]">
-
-                            {/* BACKGROUND */}
 
                             <div className="absolute inset-0 pointer-events-none overflow-hidden">
                                 <div className="absolute -top-32 -right-24 w-72 h-72 rounded-full bg-violet-500/[0.08] blur-[100px]" />
@@ -103,8 +102,6 @@ function LoginModal({ open, onClose }) {
                                 />
                             </div>
 
-                            {/* CLOSE */}
-
                             <button
                                 onClick={onClose}
                                 aria-label="Close login"
@@ -113,11 +110,7 @@ function LoginModal({ open, onClose }) {
                                 <X size={15} />
                             </button>
 
-                            {/* CONTENT */}
-
                             <div className="relative px-7 sm:px-9 pt-9 pb-8">
-
-                                {/* BRAND */}
 
                                 <div className="flex justify-center">
                                     <div className="flex items-center gap-2.5">
@@ -137,8 +130,6 @@ function LoginModal({ open, onClose }) {
                                     </div>
                                 </div>
 
-                                {/* HEADING */}
-
                                 <div className="text-center mt-8">
                                     <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-400/[0.12] bg-violet-400/[0.04] text-[9px] text-violet-300/80 uppercase tracking-[0.14em]">
                                         <span className="w-1.5 h-1.5 rounded-full bg-violet-400 shadow-[0_0_8px_rgba(139,124,255,0.8)]" />
@@ -155,8 +146,6 @@ function LoginModal({ open, onClose }) {
                                         deploy your websites.
                                     </p>
                                 </div>
-
-                                {/* GOOGLE BUTTON */}
 
                                 <MotionButton
                                     whileHover={{
@@ -188,8 +177,6 @@ function LoginModal({ open, onClose }) {
                                     </div>
                                 </MotionButton>
 
-                                {/* SECURITY */}
-
                                 <div className="mt-6 flex items-center justify-center gap-2 text-[10px] text-zinc-600">
                                     <ShieldCheck size={13} />
 
@@ -197,8 +184,6 @@ function LoginModal({ open, onClose }) {
                                         Secure authentication powered by Google
                                     </span>
                                 </div>
-
-                                {/* DIVIDER */}
 
                                 <div className="flex items-center gap-4 mt-7">
                                     <div className="h-px flex-1 bg-white/[0.07]" />
@@ -209,8 +194,6 @@ function LoginModal({ open, onClose }) {
 
                                     <div className="h-px flex-1 bg-white/[0.07]" />
                                 </div>
-
-                                {/* TERMS */}
 
                                 <p className="mt-6 text-[10px] leading-5 text-center text-zinc-600">
                                     By continuing, you agree to the NOVA{" "}
@@ -224,8 +207,6 @@ function LoginModal({ open, onClose }) {
                                     .
                                 </p>
                             </div>
-
-                            {/* BOTTOM STATUS */}
 
                             <div className="relative px-7 sm:px-9 py-3 border-t border-white/[0.06] bg-white/[0.015]">
                                 <div className="flex items-center justify-center gap-2">
